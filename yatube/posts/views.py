@@ -130,6 +130,10 @@ def profile_follow(request, username):
     """ Создаем функцию возможности подписаться на автора. """
     user = request.user
     author = get_object_or_404(User, username=username)
+    follow = user.follower.values_list('author')
+    following = User.objects.filter(pk__in=follow)
+    if author in following:
+        return redirect('profile', username=author.username)
     if user != author:
         Follow.objects.create(user=user, author=author)
         return redirect('profile', username=author.username)
