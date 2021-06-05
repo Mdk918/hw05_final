@@ -99,6 +99,7 @@ def server_error(request):
     return render(request, "misc/500.html", status=500)
 
 
+@login_required
 def add_comment(request, username, post_id):
     """ Создаем функцию отображения комментария поста."""
     post = get_object_or_404(Post, id=post_id)
