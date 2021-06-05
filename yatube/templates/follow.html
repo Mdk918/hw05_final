@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Публикации избранных авторов{% endblock %}
+{% block header %}Публикации избранных авторов{% endblock %}
+{% block content %}
+{% include "menu.html" with index=True %}
+
+    <div class="container">
+        
+        {% for post in page %}
+        <!-- Вот он, новый include! -->
+        {% include "post_item.html" with post=post %}
+        {% endfor %}
+    </div>
+        {% include "includes/paginator.html" %}
+        
+{% endblock %} 

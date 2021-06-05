@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-3 mb-3 mt-1">
+        {% include "includes/author.html" %}
+        {% if user.is_authenticated %}
+        <li class="list-group-item">
+          {% if author in following %}
+            <a
+              class="btn btn-lg btn-light"
+              href="{% url 'profile_unfollow' author.username %}" role="button">
+              Отписаться
+            </a>
+          {% else %}
+            <a
+              class="btn btn-lg btn-primary"
+              href="{% url 'profile_follow' author.username %}" role="button">
+              Подписаться
+            </a>
+          {% endif %}
+        {% endif %}
+        </li> 
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="h6 text-muted">
+                    <p>Подписчиков: {{author.following.count}} <br />
+                        Подписан: {{author.follower.count}}</p>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="h6 text-muted">
+                    <p>Записей: {{ post_count }}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+ </div>
+ <div class="col-md-9">
+  <div class="container">
+    {% for post in page %}
+      {% include "post_item.html" with post=post %}
+    {% endfor %}
+  </div>
+       {% include "includes/paginator.html" %}
+    </div>
+ </div>
+</main> 
+
+{% endblock %} 

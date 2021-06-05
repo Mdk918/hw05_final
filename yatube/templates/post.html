@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-3 mb-3 mt-1">
+        {% include "includes/author.html" %}
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <div class="h6 text-muted">
+                    <p>Подписчиков: XXX <br />
+                        Подписан: XXX</p>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="h6 text-muted">
+                    <p>Записей: {{ post_count }}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+ </div>
+ <div class="col-md-9">
+       <div class="card mb-3 mt-1 shadow-sm">
+        {% load thumbnail %}
+        {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+          <img class="card-img" src="{{ im.url }}">
+        {% endthumbnail %}
+         <div class="card-body">
+           <p class="card-text">
+             <a href="{% url 'profile' username=author.username %}">
+               <strong class="d-block text-gray-dark">{{ author.username }}</strong>
+             </a>
+             {{ post }}
+           </p>
+                {% if request.user == author %}
+                  <a class="btn btn-sm text-muted" href="{% url 'post_edit' username=request.user.username post_id=post.id %}" role="button">
+                    Редактировать
+                  </a>
+                {% endif %}
+              </div>
+               <small class="text-muted">{{ post.pub_date|date:"d M Y" }}</small>
+           </div>
+           {% include "includes/comments.html" %}
+         </div>
+       </div>  
+    </div>
+ </div>
+</main> 
+{% endblock %} 
