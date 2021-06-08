@@ -117,9 +117,7 @@ def add_comment(request, username, post_id):
 @login_required
 def follow_index(request):
     """ Создаем функцию отображения постов подписок. """
-    user = request.user
-    follow = Follow.objects.filter(user=user).values_list('author')
-    post_follow = Post.objects.filter(author__pk__in=follow)
+    post_follow = Post.objects.filter(author__following__user=request.user)
     paginator = Paginator(post_follow, settings.PAG_VAL)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)

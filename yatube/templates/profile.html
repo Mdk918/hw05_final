@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-md-3 mb-3 mt-1">
         {% include "includes/author.html" %}
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and author.username != request.user.username %}
         <li class="list-group-item">
           {% if author in following %}
             <a
@@ -22,12 +22,6 @@
         {% endif %}
         </li> 
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <div class="h6 text-muted">
-                    <p>Подписчиков: {{author.following.count}} <br />
-                        Подписан: {{author.follower.count}}</p>
-                </div>
-            </li>
             <li class="list-group-item">
                 <div class="h6 text-muted">
                     <p>Записей: {{ post_count }}</p>

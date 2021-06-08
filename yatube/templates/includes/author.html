@@ -6,4 +6,11 @@
       <div class="h3 text-muted"></div>
           <p>{{ author.username }}</p>
       </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <div class="h6 text-muted">
+                <p>Подписчиков: {{author.following.count}} <br />
+                    Подписан: {{author.follower.count}}</p>
+            </div>
+        </li>
   </div>
