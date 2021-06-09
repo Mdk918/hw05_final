@@ -91,14 +91,14 @@ class PostURLTests(TestCase):
         response = self.authorized_client.get(
             f'/{self.post.author}/{self.post.id}/edit/', follow=True)
         self.assertRedirects(
-            response, '/VG/1/')
+            response, f'/{self.post.author}/{self.post.id}/')
 
     def test_pages_use_correct_template(self):
         """URL-адрес использует соответствующий шаблон."""
         templates_pages_names = {
             'index.html': '/',
             'new.html': '/new/',
-            'group.html': '/group/test-post-slug/',
+            'group.html': f'/group/{self.group.slug}/',
         }
         for template, reverse_name in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):

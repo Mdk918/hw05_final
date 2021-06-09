@@ -87,6 +87,11 @@ class PostsFormTests(TestCase):
         self.assertRedirects(response, reverse('index'))
         self.assertEqual(Post.objects.count(), posts_count + 1)
         self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTrue(
+            Post.objects.filter(
+                text='Тестовый текст',
+                group=None,
+                image='posts/small.gif').exists())
 
     def test_edit_post(self):
         """Редактирование записи."""

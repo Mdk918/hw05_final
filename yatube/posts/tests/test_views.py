@@ -14,6 +14,17 @@ from posts.models import Follow, Group, Post
 User = get_user_model()
 
 
+def context_equal(self, first_object):
+    post_text_0 = first_object.text
+    post_pub_date_0 = first_object.pub_date
+    post_author_0 = first_object.author
+    post_image_0 = first_object.image
+    self.assertEqual(post_text_0, first_object.text)
+    self.assertEqual(post_pub_date_0, first_object.pub_date)
+    self.assertEqual(post_author_0, first_object.author)
+    self.assertEqual(post_image_0, first_object.image)
+
+
 @override_settings(MEDIA_ROOT=tempfile.mkdtemp())
 class PostImage(TestCase):
     @classmethod
@@ -126,18 +137,21 @@ class PostImage(TestCase):
             reverse('group', kwargs={'slug': f'{group.slug}'}))
         self.assertEqual(len(response.context.get('page').object_list), 1)
 
+    def context_equal(self):
+        post_text_0 = self.text
+        post_pub_date_0 = self.pub_date
+        post_author_0 = self.author
+        post_image_0 = self.image
+        self.assertEqual(post_text_0, self.text)
+        self.assertEqual(post_pub_date_0, self.pub_date)
+        self.assertEqual(post_author_0, self.author)
+        self.assertEqual(post_image_0, self.image)
+
     def test_index_image_page_shows_correct_context(self):
         """Шаблон index сформирован с правильным контекстом."""
         response = self.authorized_client.get(reverse('index'))
         first_object = response.context['page'][0]
-        post_text_0 = first_object.text
-        post_pub_date_0 = first_object.pub_date
-        post_author_0 = first_object.author
-        post_image_0 = first_object.image
-        self.assertEqual(post_text_0, f'{PostImage.post.text}')
-        self.assertEqual(post_pub_date_0, first_object.pub_date)
-        self.assertEqual(post_author_0, first_object.author)
-        self.assertEqual(post_image_0, first_object.image)
+        context_equal(self, first_object)
 
     def test_profile_image_page_shows_correct_context(self):
         """Шаблон profile сформирован с правильным контекстом."""
@@ -145,14 +159,7 @@ class PostImage(TestCase):
             reverse('profile', kwargs={
                 'username': f'{PostImage.post.author}'}))
         first_object = response.context['page'][0]
-        post_text_0 = first_object.text
-        post_pub_date_0 = first_object.pub_date
-        post_author_0 = first_object.author
-        post_image_0 = first_object.image
-        self.assertEqual(post_text_0, f'{PostImage.post.text}')
-        self.assertEqual(post_pub_date_0, first_object.pub_date)
-        self.assertEqual(post_author_0, first_object.author)
-        self.assertEqual(post_image_0, first_object.image)
+        context_equal(self, first_object)
 
     def test_post_id_page_image_shows_correct_context(self):
         """Шаблон post сформирован с правильным контекстом."""
@@ -160,28 +167,14 @@ class PostImage(TestCase):
             reverse('post', kwargs={'username': f'{PostImage.post.author}',
                                     'post_id': f'{PostImage.post.id}'}))
         first_object = response.context['post']
-        post_text_0 = first_object.text
-        post_pub_date_0 = first_object.pub_date
-        post_author_0 = first_object.author
-        post_image_0 = first_object.image
-        self.assertEqual(post_text_0, f'{PostImage.post.text}')
-        self.assertEqual(post_pub_date_0, first_object.pub_date)
-        self.assertEqual(post_author_0, first_object.author)
-        self.assertEqual(post_image_0, first_object.image)
+        context_equal(self, first_object)
 
     def test_group_page_image_shows_correct_context(self):
         """Шаблон group сформирован с правильным контекстом."""
         response = self.authorized_client.get(
             reverse('group', kwargs={'slug': f'{PostImage.group.slug}'}))
         first_object = response.context['page'][0]
-        post_text_0 = first_object.text
-        post_pub_date_0 = first_object.pub_date
-        post_author_0 = first_object.author
-        post_image_0 = first_object.image
-        self.assertEqual(post_text_0, f'{PostImage.post.text}')
-        self.assertEqual(post_pub_date_0, first_object.pub_date)
-        self.assertEqual(post_author_0, first_object.author)
-        self.assertEqual(post_image_0, first_object.image)
+        context_equal(self, first_object)
 
 
 class PagViewsTest(TestCase):
