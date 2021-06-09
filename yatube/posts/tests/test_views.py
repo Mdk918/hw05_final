@@ -137,16 +137,6 @@ class PostImage(TestCase):
             reverse('group', kwargs={'slug': f'{group.slug}'}))
         self.assertEqual(len(response.context.get('page').object_list), 1)
 
-    def context_equal(self):
-        post_text_0 = self.text
-        post_pub_date_0 = self.pub_date
-        post_author_0 = self.author
-        post_image_0 = self.image
-        self.assertEqual(post_text_0, self.text)
-        self.assertEqual(post_pub_date_0, self.pub_date)
-        self.assertEqual(post_author_0, self.author)
-        self.assertEqual(post_image_0, self.image)
-
     def test_index_image_page_shows_correct_context(self):
         """Шаблон index сформирован с правильным контекстом."""
         response = self.authorized_client.get(reverse('index'))
